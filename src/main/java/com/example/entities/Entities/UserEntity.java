@@ -9,13 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_user")
+@Table(name = "tb_users")
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String email;
     private String phone;
@@ -23,7 +23,7 @@ public class UserEntity implements Serializable {
 
     public UserEntity() {}
 
-    public UserEntity(String id, String name, String email, String phone, String password) {
+    public UserEntity(Long id, String name, String email, String phone, String password) {
         super();
         this.id = id;
         this.name = name;
@@ -32,11 +32,11 @@ public class UserEntity implements Serializable {
         this.password = password;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
