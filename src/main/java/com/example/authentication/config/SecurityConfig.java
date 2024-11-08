@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -20,7 +21,7 @@ public class SecurityConfig {
         http
             .csrf().disable() 
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/users", "/users/create").permitAll()
+                .requestMatchers("/users", "/users/create", "users/login").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic();
@@ -36,5 +37,10 @@ public class SecurityConfig {
                 .roles("USER")
                 .build()
         );
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
