@@ -41,14 +41,14 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @PostMapping("users/login")
+    @PostMapping("/users/login")
     public ResponseEntity<Optional<UserEntity>> login(@Valid @RequestBody UserLoginDTO user) {
         Optional<UserEntity> login = userService.login(user);
 
         return new ResponseEntity<>(login, HttpStatus.OK);
     }
 
-    @PutMapping("users/update/{id}")
+    @PutMapping("/users/update/{id}")
     public ResponseEntity<Optional<UserEntity>> updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateDTO body) {
         try {
             Optional<UserEntity> user = userService.updateUser(id, body);

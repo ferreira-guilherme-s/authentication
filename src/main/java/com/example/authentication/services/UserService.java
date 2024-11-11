@@ -1,6 +1,7 @@
 package com.example.authentication.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -79,8 +80,8 @@ public class UserService {
         if(findUser.isPresent()) {
             UserEntity user = findUser.get();
             try {
-                user.setFullName(body.getFullName());
-                user.setEmail(body.getEmail());
+                user.setFullName(Objects.requireNonNullElse(body.getFullName(), user.getFullName()));
+                user.setEmail(Objects.requireNonNullElse(body.getEmail(), user.getEmail()));
 
                 userRepository.save(user);
 
