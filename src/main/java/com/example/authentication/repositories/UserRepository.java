@@ -11,4 +11,5 @@ import com.example.authentication.entities.UserEntity;
 public interface UserRepository extends  JpaRepository<UserEntity, UUID> {
     List<UserEntity> findByFullName(String fullName);
     Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findById(UUID id);
 }

@@ -2,6 +2,7 @@ package com.example.authentication.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.example.authentication.dtos.UserCreateDTO;
 import com.example.authentication.dtos.UserDTO;
 import com.example.authentication.dtos.UserLoginDTO;
 import com.example.authentication.dtos.UserMapper;
+import com.example.authentication.dtos.UserUpdateDTO;
 import com.example.authentication.entities.UserEntity;
 import com.example.authentication.repositories.UserRepository;
 import com.example.authentication.utils.HashHelper;
@@ -65,6 +67,26 @@ public class UserService {
             
             if (hashPassword.equals(user.getPassword())) {
                 return Optional.of(user);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public Optional<UserEntity> updateUser(UUID id, UserUpdateDTO body) throws Exception {
+        Optional<UserEntity> findUser = userRepository.findById(id);
+
+        if(findUser.isPresent()) {
+            UserEntity user = findUser.get();
+            try {
+                user.setFullName(body.getFullName());
+                user.setEmail(body.getEmail());
+
+                userRepository.save(user);
+
+                return Optional.of(user);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
