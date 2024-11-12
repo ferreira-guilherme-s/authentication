@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,10 @@ import com.example.authentication.utils.HashHelper;
 public class UserService {
 
     private final UserRepository userRepository;
-        private final BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
@@ -80,8 +84,7 @@ public class UserService {
         if(findUser.isPresent()) {
             UserEntity user = findUser.get();
             try {
-                user.setFullName(Objects.requireNonNullElse(body.getFullName(), user.getFullName()));
-                user.setEmail(Objects.requireNonNullElse(body.getEmail(), user.getEmail()));
+                modelMapper.map(body, user);
 
                 userRepository.save(user);
 
